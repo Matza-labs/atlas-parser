@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "atlas-parser"
+version = "0.1.0"
+description = "Static Analysis Engine for PipelineAtlas — deterministic CI/CD pipeline parsing"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = [
+    "atlas-sdk @ file:///${PROJECT_ROOT}/../atlas-sdk",
+    "pyyaml>=6.0",
+    "redis>=5.0",
+    "lxml>=5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.1.0",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
