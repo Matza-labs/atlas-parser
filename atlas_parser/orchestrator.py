@@ -19,6 +19,7 @@ from atlas_parser.gitlab.yaml_parser import GitLabYAMLParser
 from atlas_parser.jenkins.declarative import DeclarativeParser
 from atlas_parser.jenkins.freestyle import FreestyleParser
 from atlas_parser.jenkins.scripted import ScriptedParser
+from atlas_parser.github.yaml_parser import GitHubYAMLParser
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +32,7 @@ class ParserOrchestrator:
         self._scripted = ScriptedParser()
         self._freestyle = FreestyleParser()
         self._gitlab = GitLabYAMLParser()
+        self._github = GitHubYAMLParser()
 
     def parse_all(
         self,
@@ -78,6 +80,10 @@ class ParserOrchestrator:
         platform: str,
     ) -> ParseResult:
         """Route a single config to the correct parser."""
+
+        # GitHub Actions
+        if platform == Platform.GITHUB_ACTIONS or job_type == "github_actions":
+            return self._github.parse(content, source_name=job_name)
 
         # GitLab
         if platform == Platform.GITLAB or job_type == "gitlab_ci":
