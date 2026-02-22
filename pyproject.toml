@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
 dependencies = [
-    "atlas-sdk @ file:///${PROJECT_ROOT}/../atlas-sdk",
+    "atlas-sdk",
     "pyyaml>=6.0",
     "redis>=5.0",
     "lxml>=5.0",
