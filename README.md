@@ -10,11 +10,11 @@ Parses CI/CD pipeline definitions into structured graph nodes and edges. Fully d
 
 | Format | Module | Status |
 |--------|--------|--------|
-| Jenkins Declarative Pipeline | `atlas_parser.jenkins.declarative` | 🔵 MVP |
-| Jenkins Scripted Pipeline | `atlas_parser.jenkins.scripted` | 🔵 MVP |
-| Jenkins Freestyle XML | `atlas_parser.jenkins.freestyle` | 🔵 MVP |
-| GitLab CI YAML | `atlas_parser.gitlab.yaml_parser` | 🔵 MVP |
-| GitLab Includes/Extends | `atlas_parser.gitlab.include_resolver` | 🔵 MVP |
+| Jenkins Declarative Pipeline | `atlas_parser.jenkins.declarative` | ✅ Completed |
+| Jenkins Scripted Pipeline | `atlas_parser.jenkins.scripted` | ✅ Completed |
+| Jenkins Freestyle XML | `atlas_parser.jenkins.freestyle` | ✅ Completed |
+| GitLab CI YAML | `atlas_parser.gitlab.yaml_parser` | ✅ Completed |
+| GitLab Includes/Extends | `atlas_parser.gitlab.include_resolver` | ✅ Completed |
 | GitHub Actions YAML | — | 🟡 Phase 2 |
 
 ## Input
