@@ -14,6 +14,8 @@ from atlas_sdk.models.edges import Edge
 from atlas_sdk.models.nodes import Node
 
 from atlas_parser.base import ParseResult
+from atlas_parser.azure.yaml_parser import AzureYAMLParser
+from atlas_parser.bitbucket.yaml_parser import BitbucketYAMLParser
 from atlas_parser.gitlab.include_resolver import resolve_extends
 from atlas_parser.gitlab.yaml_parser import GitLabYAMLParser
 from atlas_parser.jenkins.declarative import DeclarativeParser
@@ -33,6 +35,8 @@ class ParserOrchestrator:
         self._freestyle = FreestyleParser()
         self._gitlab = GitLabYAMLParser()
         self._github = GitHubYAMLParser()
+        self._azure = AzureYAMLParser()
+        self._bitbucket = BitbucketYAMLParser()
 
     def parse_all(
         self,
@@ -72,6 +76,18 @@ class ParserOrchestrator:
         )
         return combined
 
+    def parse(self, content: str, platform: Platform | str = "") -> ParseResult:
+        """Parse a single config string — convenience wrapper for atlas-cli integration.
+
+        Args:
+            content:  Raw pipeline config text.
+            platform: Platform enum value or string (e.g. Platform.GITHUB_ACTIONS).
+
+        Returns:
+            ParseResult with nodes and edges.
+        """
+        return self._route_and_parse(content, job_name="", job_type="", platform=platform)
+
     def _route_and_parse(
         self,
         content: str,
@@ -84,6 +100,14 @@ class ParserOrchestrator:
         # GitHub Actions
         if platform == Platform.GITHUB_ACTIONS or job_type == "github_actions":
             return self._github.parse(content, source_name=job_name)
+
+        # Azure DevOps
+        if platform == Platform.AZURE_DEVOPS or job_type == "azure_pipelines":
+            return self._azure.parse(content, source_name=job_name)
+
+        # Bitbucket Pipelines
+        if platform == Platform.BITBUCKET or job_type == "bitbucket_pipelines":
+            return self._bitbucket.parse(content, source_name=job_name)
 
         # GitLab
         if platform == Platform.GITLAB or job_type == "gitlab_ci":
